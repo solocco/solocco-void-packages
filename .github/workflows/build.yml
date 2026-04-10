@@ -151,6 +151,7 @@ jobs:
         run: |
           export PATH="/opt/xbps/usr/bin/:$PATH"
           cd void-packages
+          mkdir -p common/conf
           echo "XBPS_ALLOW_RESTRICTED=yes" | sudo tee -a common/conf/make.conf
           sudo -Eu builder ./xbps-src -j$(nproc) pkg google-chrome-bin
 
