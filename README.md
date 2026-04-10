@@ -1,19 +1,3 @@
-# solocco-void-packages
-
-Unofficial Void Linux binary packages, built automatically via GitHub Actions.
-
-## Available Packages
-
-| Package | Description |
-|---|---|
-| `zen-browser-bin` | [Zen Browser](https://www.zen-browser.app/) — A calmer internet |
-| `google-chrome-bin` | [Google Chrome](https://www.google.com/chrome/) — Fast and secure browser |
-
----
-
-## Installation
-
-### 1. Add Repository
 
 ```bash
 echo "repository=https://github.com/solocco/solocco-void-packages/releases/latest/download" | sudo tee /etc/xbps.d/20-solocco.conf
