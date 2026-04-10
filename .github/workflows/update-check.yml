@@ -1,0 +1,54 @@
+name: Update Check
+on:
+  workflow_dispatch:
+  schedule:
+    # Setiap hari jam 08:00 UTC (15:00 WIB)
+    - cron: '0 8 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  update-zen-browser-bin:
+    name: Check zen-browser-bin updates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run update script
+        id: update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x scripts/update-zen-browser-bin.sh
+          ./scripts/update-zen-browser-bin.sh
+
+      - name: Commit and push
+        if: env.NEW_VERSION != ''
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Update zen-browser-bin to ${{ env.NEW_VERSION }}"
+          add: 'srcpkgs/zen-browser-bin/template'
+
+  update-google-chrome-bin:
+    name: Check google-chrome-bin updates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run update script
+        id: update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x scripts/update-google-chrome-bin.sh
+          ./scripts/update-google-chrome-bin.sh
+
+      - name: Commit and push
+        if: env.NEW_VERSION != ''
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Update google-chrome-bin to ${{ env.NEW_VERSION }}"
+          add: 'srcpkgs/google-chrome-bin/template'

@@ -1,0 +1,46 @@
+#!/bin/bash
+set -e
+
+TPL="srcpkgs/google-chrome-bin/template"
+CHANNEL="stable"
+URL="https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/"
+
+echo "### Checking for google-chrome-bin updates..."
+
+CURRENT_VERSION=$(grep '^version=' "$TPL" | cut -d= -f2)
+
+# Ambil versi terbaru dari halaman download Google Chrome
+LATEST_VERSION=$(curl -s "${URL}" \
+    | grep -oP "google-chrome-${CHANNEL}_\K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" \
+    | sort -V | tail -1)
+
+if [ -z "$LATEST_VERSION" ]; then
+    echo "Error: Failed to fetch latest version."
+    exit 1
+fi
+
+if [ "$LATEST_VERSION" = "$CURRENT_VERSION" ]; then
+    echo "No update required. Current version: $CURRENT_VERSION"
+    exit 0
+fi
+
+echo "Update found: $CURRENT_VERSION -> $LATEST_VERSION"
+
+DEB_URL="${URL}google-chrome-${CHANNEL}_${LATEST_VERSION}-1_amd64.deb"
+
+echo "Calculating checksum..."
+CHK=$(curl -L -s "$DEB_URL" | sha256sum | awk '{print $1}')
+
+if [ -z "$CHK" ]; then
+    echo "Error: Failed to fetch checksum."
+    exit 1
+fi
+
+echo "Checksum: $CHK"
+
+sed -i "s/^version=.*/version=$LATEST_VERSION/" "$TPL"
+sed -i "s/^revision=.*/revision=1/" "$TPL"
+sed -i "s/^checksum=.*/checksum=$CHK/" "$TPL"
+
+echo "NEW_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+echo "### Done! google-chrome-bin updated to $LATEST_VERSION"
