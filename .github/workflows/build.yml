@@ -160,7 +160,7 @@ jobs:
           PRIV_KEY: ${{ secrets.PRIV_KEY }}
         run: |
           export PATH="/opt/xbps/usr/bin/:$PATH"
-          cd void-packages/hostdir/binpkgs/
+          cd void-packages/hostdir/binpkgs/nonfree/
           echo "$PRIV_KEY" > private.pem
           xbps-rindex -a *.xbps
           xbps-rindex -s --signedby "solocco" --privkey private.pem $PWD
@@ -178,4 +178,4 @@ jobs:
             Architecture: x86_64 (glibc)
           make_latest: false
           files: |
-            void-packages/hostdir/binpkgs/*
+            void-packages/hostdir/binpkgs/nonfree/*
