@@ -3,15 +3,12 @@
 echo "repository=https://github.com/solocco/solocco-void-packages/releases/latest/download" | sudo tee /etc/xbps.d/20-solocco.conf
 ```
 
-### 2. Sync
+
 
 ```bash
 sudo xbps-install -S
 ```
 
-> xbps will prompt you to import the repository's public key. Type `y` to accept.
-
-### 3. Install Packages
 
 ```bash
 # Zen Browser
@@ -24,19 +21,11 @@ sudo xbps-install -S google-chrome-bin
 sudo xbps-install -S zen-browser-bin google-chrome-bin
 ```
 
----
-
-## Update
 
 ```bash
 sudo xbps-install -Su
 ```
 
-New versions are checked daily and built automatically.
-
----
-
-## Removal
 
 ```bash
 # Remove a package
