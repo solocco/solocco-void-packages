@@ -38,6 +38,8 @@ jobs:
           mkdir -p /etc/xbps.d && cp /usr/share/xbps.d/*-repository-*.conf /etc/xbps.d/
           sed -i 's|repo-default|repo-ci|g' /etc/xbps.d/*-repository-*.conf
           xbps-install -Syu xbps && xbps-install -yu && xbps-install -y sudo bash curl git
+          curl -fsSL https://github.com/cli/cli/releases/download/v2.67.0/gh_2.67.0_linux_amd64.tar.gz | tar -xz -C /tmp
+          install -m755 /tmp/gh_2.67.0_linux_amd64/bin/gh /usr/local/bin/gh
           useradd -G xbuilder -M builder
           echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
 
@@ -78,7 +80,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p /tmp/repo
-          # Download semua file dari release "repo-latest" kalau sudah ada
           gh release download repo-latest \
             --repo ${{ github.repository }} \
             --dir /tmp/repo \
@@ -88,7 +89,6 @@ jobs:
 
       - name: Merge new packages into repo
         run: |
-          # Copy hasil build baru, timpa file lama kalau ada
           find void-packages/hostdir/binpkgs -name "*.xbps" -exec cp -f {} /tmp/repo/ \;
           find void-packages/hostdir/binpkgs -name "*.xbps.sig2" -exec cp -f {} /tmp/repo/ \;
 
@@ -98,7 +98,6 @@ jobs:
         run: |
           export PATH="/opt/xbps/usr/bin/:$PATH"
           cd /tmp/repo
-          # Hapus repodata lama supaya dibuat ulang
           rm -f x86_64-repodata
           echo "$PRIV_KEY" > private.pem
           xbps-rindex -a *.xbps
@@ -110,13 +109,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Buat release kalau belum ada
           gh release create repo-latest \
             --repo ${{ github.repository }} \
             --title "solocco-void-packages" \
             --notes "Permanent repository release. Files are updated automatically on each build." \
             --latest || true
-          # Upload semua file (timpa yang lama)
           gh release upload repo-latest \
             --repo ${{ github.repository }} \
             --clobber \
@@ -143,6 +140,8 @@ jobs:
           mkdir -p /etc/xbps.d && cp /usr/share/xbps.d/*-repository-*.conf /etc/xbps.d/
           sed -i 's|repo-default|repo-ci|g' /etc/xbps.d/*-repository-*.conf
           xbps-install -Syu xbps && xbps-install -yu && xbps-install -y sudo bash curl git
+          curl -fsSL https://github.com/cli/cli/releases/download/v2.67.0/gh_2.67.0_linux_amd64.tar.gz | tar -xz -C /tmp
+          install -m755 /tmp/gh_2.67.0_linux_amd64/bin/gh /usr/local/bin/gh
           useradd -G xbuilder -M builder
           echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
 
