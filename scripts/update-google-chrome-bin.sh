@@ -9,10 +9,9 @@ echo "### Checking for google-chrome-bin updates..."
 
 CURRENT_VERSION=$(grep '^version=' "$TPL" | cut -d= -f2)
 
-# Ambil versi terbaru dari halaman download Google Chrome
-LATEST_VERSION=$(curl -s "${URL}" \
-    | grep -oP "google-chrome-${CHANNEL}_\K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" \
-    | sort -V | tail -1)
+# Ambil versi terbaru dari Chrome version API
+LATEST_VERSION=$(curl -s "https://chromiumdash.appspot.com/fetch_releases?channel=Stable&platform=Linux&num=1" \
+    | grep -oP '"version":"\K[^"]+' | head -1)
 
 if [ -z "$LATEST_VERSION" ]; then
     echo "Error: Failed to fetch latest version."
