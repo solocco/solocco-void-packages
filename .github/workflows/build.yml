@@ -96,7 +96,6 @@ jobs:
         run: |
           cd /tmp/repo
           for pkg in zen-browser-bin google-chrome-bin; do
-            # Hapus versi lama, sisakan hanya yang terbaru
             ls ${pkg}-*.xbps 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
             ls ${pkg}-*.xbps.sig2 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
           done
@@ -122,11 +121,14 @@ jobs:
             --repo ${{ github.repository }} \
             --title "solocco-void-packages" \
             --notes "Permanent repository release. Files are updated automatically on each build." \
-            --latest || true
-          gh release upload repo-latest \
-            --repo ${{ github.repository }} \
-            --clobber \
-            /tmp/repo/*
+            --latest 2>/dev/null || true
+          sleep 3
+          for f in /tmp/repo/*; do
+            gh release upload repo-latest \
+              --repo ${{ github.repository }} \
+              --clobber \
+              "$f" || true
+          done
 
   build-google-chrome-bin:
     name: Build google-chrome-bin
@@ -209,7 +211,6 @@ jobs:
         run: |
           cd /tmp/repo
           for pkg in zen-browser-bin google-chrome-bin; do
-            # Hapus versi lama, sisakan hanya yang terbaru
             ls ${pkg}-*.xbps 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
             ls ${pkg}-*.xbps.sig2 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
           done
@@ -235,8 +236,11 @@ jobs:
             --repo ${{ github.repository }} \
             --title "solocco-void-packages" \
             --notes "Permanent repository release. Files are updated automatically on each build." \
-            --latest || true
-          gh release upload repo-latest \
-            --repo ${{ github.repository }} \
-            --clobber \
-            /tmp/repo/*
+            --latest 2>/dev/null || true
+          sleep 3
+          for f in /tmp/repo/*; do
+            gh release upload repo-latest \
+              --repo ${{ github.repository }} \
+              --clobber \
+              "$f" || true
+          done
