@@ -58,3 +58,28 @@ jobs:
           message: "Update google-chrome-bin to ${{ env.NEW_VERSION }}"
           add: 'srcpkgs/google-chrome-bin/template'
           github_token: ${{ secrets.PAT_TOKEN }}
+
+  update-helium-browser-bin:
+    name: Check helium-browser-bin updates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Run update script
+        id: update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x scripts/update-helium-browser-bin.sh
+          ./scripts/update-helium-browser-bin.sh
+
+      - name: Commit and push
+        if: env.NEW_VERSION != ''
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Update helium-browser-bin to ${{ env.NEW_VERSION }}"
+          add: 'srcpkgs/helium-browser-bin/template'
+          github_token: ${{ secrets.PAT_TOKEN }}

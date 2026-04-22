@@ -1,0 +1,36 @@
+# Template file for 'helium-browser-bin'
+pkgname=helium-browser-bin
+version=0.11.3.2
+revision=1
+archs="x86_64"
+depends="desktop-file-utils hicolor-icon-theme libnotify xdg-utils"
+short_desc="Private, fast, and honest web browser"
+maintainer="solocco"
+license="GPL-3.0"
+homepage="https://helium.computer/"
+changelog="https://github.com/imputnet/helium-linux/releases"
+distfiles="https://github.com/imputnet/helium-linux/releases/download/${version}/helium-${version}-x86_64_linux.tar.xz"
+checksum="0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
+nostrip=yes
+
+do_install() {
+	install -dm755 "${DESTDIR}/opt/${pkgname}" "${DESTDIR}/usr/bin" \
+		"${DESTDIR}/usr/share/applications" "${DESTDIR}/usr/share/pixmaps"
+
+	vcopy * "opt/${pkgname}"
+	ln -sf "/opt/${pkgname}/helium" "${DESTDIR}/usr/bin/helium"
+
+	vinstall "${FILESDIR}/helium.desktop" 0644 usr/share/applications/
+
+	for size in 16 32 48 64 128 256; do
+		install -dm755 "${DESTDIR}/usr/share/icons/hicolor/${size}x${size}/apps"
+		vinstall "icons/icon_${size}.png" 0644 \
+			"usr/share/icons/hicolor/${size}x${size}/apps" helium.png
+	done
+
+	vinstall "icons/icon_48.png" 0644 usr/share/pixmaps helium.png
+
+	ln -Ts /usr/share/hunspell "${DESTDIR}/opt/${pkgname}/dictionaries"
+	ln -Ts /usr/share/hyphen "${DESTDIR}/opt/${pkgname}/hyphenation"
+	ln -sf /usr/lib/libnssckbi.so "${DESTDIR}/opt/${pkgname}/libnssckbi.so"
+}
