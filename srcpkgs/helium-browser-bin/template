@@ -14,23 +14,28 @@ checksum="0cc832d4d1f6fa1bb30c6c92942a8da608fb2672ede0eb6051e0a3c4c096bc5b"
 nostrip=yes
 
 do_install() {
-	install -dm755 "${DESTDIR}/opt/${pkgname}" "${DESTDIR}/usr/bin" \
-		"${DESTDIR}/usr/share/applications" "${DESTDIR}/usr/share/pixmaps"
+    install -dm755 "${DESTDIR}/opt/${pkgname}" \
+        "${DESTDIR}/usr/bin" \
+        "${DESTDIR}/usr/share/applications" \
+        "${DESTDIR}/usr/share/pixmaps" \
+        "${DESTDIR}/usr/share/icons/hicolor/256x256/apps"
 
-	vcopy * "opt/${pkgname}"
-	ln -sf "/opt/${pkgname}/helium" "${DESTDIR}/usr/bin/helium"
+    # copy semua isi tarball ke /opt
+    vcopy * "opt/${pkgname}"
 
-	vinstall "${FILESDIR}/helium.desktop" 0644 usr/share/applications/
+    # symlink binary
+    ln -sf "/opt/${pkgname}/helium" "${DESTDIR}/usr/bin/helium"
 
-	for size in 16 32 48 64 128 256; do
-		install -dm755 "${DESTDIR}/usr/share/icons/hicolor/${size}x${size}/apps"
-		vinstall "icons/icon_${size}.png" 0644 \
-			"usr/share/icons/hicolor/${size}x${size}/apps" helium.png
-	done
+    # desktop file
+    vinstall "${FILESDIR}/helium.desktop" 0644 usr/share/applications/
 
-	vinstall "icons/icon_48.png" 0644 usr/share/pixmaps helium.png
+    # icon (FIX: pakai file yang memang ada)
+    vinstall "product_logo_256.png" 0644 usr/share/pixmaps helium.png
+    vinstall "product_logo_256.png" 0644 \
+        usr/share/icons/hicolor/256x256/apps helium.png
 
-	ln -Ts /usr/share/hunspell "${DESTDIR}/opt/${pkgname}/dictionaries"
-	ln -Ts /usr/share/hyphen "${DESTDIR}/opt/${pkgname}/hyphenation"
-	ln -sf /usr/lib/libnssckbi.so "${DESTDIR}/opt/${pkgname}/libnssckbi.so"
+    # dictionaries & libs
+    ln -Ts /usr/share/hunspell "${DESTDIR}/opt/${pkgname}/dictionaries"
+    ln -Ts /usr/share/hyphen "${DESTDIR}/opt/${pkgname}/hyphenation"
+    ln -sf /usr/lib/libnssckbi.so "${DESTDIR}/opt/${pkgname}/libnssckbi.so"
 }
