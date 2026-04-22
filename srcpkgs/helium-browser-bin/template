@@ -10,7 +10,7 @@ license="GPL-3.0"
 homepage="https://helium.computer/"
 changelog="https://github.com/imputnet/helium-linux/releases"
 distfiles="https://github.com/imputnet/helium-linux/releases/download/${version}/helium-${version}-x86_64_linux.tar.xz"
-checksum="0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5"
+checksum="0cc832d4d1f6fa1bb30c6c92942a8da608fb2672ede0eb6051e0a3c4c096bc5b"
 nostrip=yes
 
 do_install() {
