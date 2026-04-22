@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Helium
+Name=Helium Browser
 Comment=Private, fast, and honest web browser
 Exec=/usr/bin/helium %u
 Icon=helium
