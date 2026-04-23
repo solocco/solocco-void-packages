@@ -21,7 +21,7 @@ jobs:
     name: Build zen-browser-bin
     if: |
       (github.event_name == 'workflow_dispatch' && (github.event.inputs.package == 'zen-browser-bin' || github.event.inputs.package == 'all')) ||
-      (github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'srcpkgs/zen-browser-bin'))
+      (github.event_name == 'push' && contains(github.event.head_commit.message, 'zen-browser-bin'))
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/void-linux/void-glibc-full
@@ -94,10 +94,11 @@ jobs:
 
       - name: Cleanup old versions
         run: |
+          export PATH="/opt/xbps/usr/bin/:$PATH"
           cd /tmp/repo
-          for pkg in zen-browser-bin google-chrome-bin helium-browser-bin; do
-            ls ${pkg}-*.xbps 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
-            ls ${pkg}-*.xbps.sig2 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
+          xbps-rindex --remove-obsoletes $PWD
+          for sig in *.xbps.sig2; do
+            [ -f "${sig%.sig2}" ] || rm -f "$sig"
           done
 
       - name: Sign and Index
@@ -134,7 +135,7 @@ jobs:
     name: Build google-chrome-bin
     if: |
       (github.event_name == 'workflow_dispatch' && (github.event.inputs.package == 'google-chrome-bin' || github.event.inputs.package == 'all')) ||
-      (github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'srcpkgs/google-chrome-bin'))
+      (github.event_name == 'push' && contains(github.event.head_commit.message, 'google-chrome-bin'))
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/void-linux/void-glibc-full
@@ -209,10 +210,11 @@ jobs:
 
       - name: Cleanup old versions
         run: |
+          export PATH="/opt/xbps/usr/bin/:$PATH"
           cd /tmp/repo
-          for pkg in zen-browser-bin google-chrome-bin helium-browser-bin; do
-            ls ${pkg}-*.xbps 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
-            ls ${pkg}-*.xbps.sig2 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
+          xbps-rindex --remove-obsoletes $PWD
+          for sig in *.xbps.sig2; do
+            [ -f "${sig%.sig2}" ] || rm -f "$sig"
           done
 
       - name: Sign and Index
@@ -249,7 +251,7 @@ jobs:
     name: Build helium-browser-bin
     if: |
       (github.event_name == 'workflow_dispatch' && (github.event.inputs.package == 'helium-browser-bin' || github.event.inputs.package == 'all')) ||
-      (github.event_name == 'push' && contains(join(github.event.commits.*.modified, ','), 'srcpkgs/helium-browser-bin'))
+      (github.event_name == 'push' && contains(github.event.head_commit.message, 'helium-browser-bin'))
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/void-linux/void-glibc-full
@@ -322,10 +324,11 @@ jobs:
 
       - name: Cleanup old versions
         run: |
+          export PATH="/opt/xbps/usr/bin/:$PATH"
           cd /tmp/repo
-          for pkg in zen-browser-bin google-chrome-bin helium-browser-bin; do
-            ls ${pkg}-*.xbps 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
-            ls ${pkg}-*.xbps.sig2 2>/dev/null | sort -V | head -n -1 | xargs -r rm -f
+          xbps-rindex --remove-obsoletes $PWD
+          for sig in *.xbps.sig2; do
+            [ -f "${sig%.sig2}" ] || rm -f "$sig"
           done
 
       - name: Sign and Index
