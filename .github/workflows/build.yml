@@ -94,9 +94,11 @@ jobs:
 
       - name: Cleanup old versions
         run: |
-          export PATH="/opt/xbps/usr/bin/:$PATH"
           cd /tmp/repo
-          xbps-rindex --remove-obsoletes $PWD
+          # Hanya hapus versi lama zen-browser-bin, jangan sentuh package lain
+          ls -t zen-browser-bin-*.xbps 2>/dev/null | tail -n +2 | xargs -r rm -f
+          ls -t zen-browser-bin-*.xbps.sig2 2>/dev/null | tail -n +2 | xargs -r rm -f
+          # Hapus orphan sig2
           for sig in *.xbps.sig2; do
             [ -f "${sig%.sig2}" ] || rm -f "$sig"
           done
@@ -210,9 +212,11 @@ jobs:
 
       - name: Cleanup old versions
         run: |
-          export PATH="/opt/xbps/usr/bin/:$PATH"
           cd /tmp/repo
-          xbps-rindex --remove-obsoletes $PWD
+          # Hanya hapus versi lama google-chrome-bin, jangan sentuh package lain
+          ls -t google-chrome-bin-*.xbps 2>/dev/null | tail -n +2 | xargs -r rm -f
+          ls -t google-chrome-bin-*.xbps.sig2 2>/dev/null | tail -n +2 | xargs -r rm -f
+          # Hapus orphan sig2
           for sig in *.xbps.sig2; do
             [ -f "${sig%.sig2}" ] || rm -f "$sig"
           done
@@ -324,9 +328,11 @@ jobs:
 
       - name: Cleanup old versions
         run: |
-          export PATH="/opt/xbps/usr/bin/:$PATH"
           cd /tmp/repo
-          xbps-rindex --remove-obsoletes $PWD
+          # Hanya hapus versi lama helium-browser-bin, jangan sentuh package lain
+          ls -t helium-browser-bin-*.xbps 2>/dev/null | tail -n +2 | xargs -r rm -f
+          ls -t helium-browser-bin-*.xbps.sig2 2>/dev/null | tail -n +2 | xargs -r rm -f
+          # Hapus orphan sig2
           for sig in *.xbps.sig2; do
             [ -f "${sig%.sig2}" ] || rm -f "$sig"
           done
