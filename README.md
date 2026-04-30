@@ -17,26 +17,13 @@ sudo xbps-install -S zen-browser-bin
 # Google Chrome
 sudo xbps-install -S google-chrome-bin
 
-# Or both at once
-sudo xbps-install -S zen-browser-bin google-chrome-bin
+# Helium Browser
+sudo xbps-install -S helium-browser-bin
+
+# Mayulite Nerd Font
+sudo xbps-install -S mayulite-nerd-font
 ```
 
-
-```bash
-sudo xbps-install -Su
-```
-
-
-```bash
-# Remove a package
-sudo xbps-remove zen-browser-bin
-sudo xbps-remove google-chrome-bin
-
-# Remove the repository (optional)
-sudo rm /etc/xbps.d/20-solocco.conf
-```
-
----
 
 ## Maintainer
 
