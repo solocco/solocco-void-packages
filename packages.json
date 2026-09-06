@@ -210,6 +210,16 @@
       "build": true,
       "strategy": "source-tarball",
       "repo": "PCSX2/pcsx2"
+    },
+    {
+      "package": "telegram-desktop-bin",
+      "restricted": false,
+      "build": true,
+      "strategy": "binary-asset",
+      "repo": "telegramdesktop/tdesktop",
+      "asset": "tsetup.{version}.tar.xz",
+      "quoted_checksum": false,
+      "url_v_prefix": true
     }
   ]
 }
