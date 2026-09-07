@@ -170,7 +170,7 @@
     {
       "package": "jetsevka-bin",
       "restricted": false,
-      "build": false,
+      "build": true,
       "strategy": "font",
       "font": "Jetsevka"
     },
