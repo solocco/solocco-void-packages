@@ -1,6 +1,6 @@
 pkgname=jetsevka-bin
 version=34.8.1
-revision=1
+revision=2
 depends="font-util"
 short_desc="Jetsevka TTF and Nerd Font"
 maintainer="solocco"
