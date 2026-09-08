@@ -1,6 +1,6 @@
 pkgname=jetsevka-bin
 version=34.8.1
-revision=2
+revision=1
 depends="font-util"
 short_desc="Jetsevka TTF and Nerd Font"
 maintainer="solocco"
@@ -8,8 +8,8 @@ license="OFL-1.1"
 homepage="https://github.com/solocco/my-fonts"
 distfiles="https://github.com/solocco/my-fonts/releases/download/Jetsevka-v${version}/Jetsevka-TTF.tar.xz
  https://github.com/solocco/my-fonts/releases/download/Jetsevka-v${version}/Jetsevka-NerdFont.tar.xz"
-checksum="202407a2e04e024811dbf40ca93c86c9a5903db5a19923406a1c13afc61f5295
- 2ea539a1bf3b8573bd65d4e161328cc3f79fdccd326cc4321cb8ca5e0600f747"
+checksum="c982898d7ce4e8bb1512cc8f89399555eddf6df2b82ebaa7630e0d5d5b593807
+ 6e6b4abc565b65db8d9b62a0b15ad4e1d047e6efe5d74a0b8e9477aca5245fa5"
 font_dirs="/usr/share/fonts/TTF"
 provides="font:monospace-0_1"
  
