@@ -3,7 +3,6 @@ pkgname=Tela-circle-icon-theme
 version=20260707
 revision=1
 _tag="2026-07-07"
-archs=noarch
 hostmakedepends="bash"
 depends="hicolor-icon-theme"
 short_desc="Flat, colorful circle icon theme"
