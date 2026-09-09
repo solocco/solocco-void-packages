@@ -230,6 +230,16 @@
       "fallback_tags": true,
       "dash_strip": true,
       "set_tag_var": true
+    },
+    {
+      "package": "bibata-cursor-theme",
+      "restricted": false,
+      "build": true,
+      "strategy": "binary-asset",
+      "repo": "ful1e5/Bibata_Cursor",
+      "asset": "Bibata-Modern-Ice.tar.xz",
+      "quoted_checksum": false,
+      "url_v_prefix": true
     }
   ]
 }
