@@ -224,7 +224,7 @@
     {
       "package": "Tela-circle-icon-theme",
       "restricted": false,
-      "build": false,
+      "build": true,
       "strategy": "source-tarball",
       "repo": "vinceliuice/Tela-circle-icon-theme",
       "fallback_tags": true,

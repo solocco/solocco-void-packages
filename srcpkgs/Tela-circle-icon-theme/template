@@ -12,7 +12,7 @@ license="GPL-3.0-only"
 homepage="https://github.com/vinceliuice/Tela-circle-icon-theme"
 changelog="https://github.com/vinceliuice/Tela-circle-icon-theme/tags"
 distfiles="https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/${_tag}.tar.gz"
-checksum=@@FILL_ME@@
+checksum=0a8aee6e95f19ff96cc497d804c75e2af4271a5e6472c55891fb8ac5b099b59b
 
 do_install() {
 	# Pasang varian warna standard saja ke DESTDIR (paket ramping).
