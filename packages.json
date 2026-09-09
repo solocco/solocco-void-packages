@@ -220,6 +220,16 @@
       "asset": "tsetup.{version}.tar.xz",
       "quoted_checksum": false,
       "url_v_prefix": true
+    },
+    {
+      "package": "Tela-circle-icon-theme",
+      "restricted": false,
+      "build": false,
+      "strategy": "source-tarball",
+      "repo": "vinceliuice/Tela-circle-icon-theme",
+      "fallback_tags": true,
+      "dash_strip": true,
+      "set_tag_var": true
     }
   ]
 }
