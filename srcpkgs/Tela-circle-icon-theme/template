@@ -15,8 +15,8 @@ distfiles="https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/ta
 checksum=@@FILL_ME@@
 
 do_install() {
-	# Pasang semua varian warna (-a) + versi folder circle (-c) ke DESTDIR.
-	bash ./install.sh -a -c -d "${DESTDIR}/usr/share/icons"
+	# Pasang varian warna standard saja ke DESTDIR (paket ramping).
+	bash ./install.sh standard -d "${DESTDIR}/usr/share/icons"
 
 	# Jangan ikut-bundle icon-theme.cache: trigger gtk-icon-cache milik xbps
 	# yang meregenerasinya saat paket dipasang di sistem pengguna.
