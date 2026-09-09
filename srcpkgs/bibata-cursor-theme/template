@@ -1,0 +1,24 @@
+# Template file for 'bibata-cursor-theme'
+pkgname=bibata-cursor-theme
+version=2.0.7
+revision=1
+short_desc="Material based cursor theme (Bibata Modern Ice)"
+maintainer="solocco <noreply@github.com>"
+license="GPL-3.0-only"
+homepage="https://github.com/ful1e5/Bibata_Cursor"
+changelog="https://github.com/ful1e5/Bibata_Cursor/releases"
+distfiles="https://github.com/ful1e5/Bibata_Cursor/releases/download/v${version}/Bibata-Modern-Ice.tar.xz"
+checksum=a68cae60c4dc706350e194ebc91c5fe48bc7bc9d59e119555834a2a7ee5078ef
+
+do_install() {
+	# Tarball berisi satu dir top-level Bibata-Modern-Ice/. xbps-src biasanya
+	# meng-strip satu komponen path (file jadi di top-level wrksrc); fallback
+	# ke nama dir kalau tidak ter-strip.
+	local dest="usr/share/icons/Bibata-Modern-Ice" src="."
+	[ -d Bibata-Modern-Ice ] && src="Bibata-Modern-Ice"
+
+	vmkdir "$dest"
+	vcopy "${src}/cursors" "$dest"
+	vcopy "${src}/index.theme" "$dest"
+	vcopy "${src}/cursor.theme" "$dest"
+}
