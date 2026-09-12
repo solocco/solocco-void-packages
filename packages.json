@@ -212,6 +212,11 @@
       "repo": "PCSX2/pcsx2"
     },
     {
+      "package": "swayfx-bin",
+      "restricted": false,
+      "build": true,
+      "strategy": "source-tarball",
+      "repo": "WillPower3309/swayfx"
       "package": "telegram-desktop-bin",
       "restricted": false,
       "build": true,
