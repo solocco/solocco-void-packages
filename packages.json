@@ -240,6 +240,13 @@
       "asset": "Bibata-Modern-Ice.tar.xz",
       "quoted_checksum": false,
       "url_v_prefix": true
+    },
+    {
+      "package": "swayfx-bin",
+      "restricted": false,
+      "build": true,
+      "strategy": "source-tarball",
+      "repo": "WillPower3309/swayfx"
     }
   ]
 }
