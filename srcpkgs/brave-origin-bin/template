@@ -1,7 +1,7 @@
 # Template file for 'brave-origin-bin'
 # Repackages the official rpm package.
 pkgname=brave-origin-bin
-version=1.94.119
+version=1.95.101
 revision=1
 archs="x86_64"
 create_wrksrc=yes
@@ -12,7 +12,7 @@ license="MPL-2.0"
 homepage="https://www.brave.com/"
 changelog="https://brave.com/latest/"
 distfiles="https://github.com/brave/brave-browser/releases/download/v${version}/brave-origin-${version}-1.x86_64.rpm"
-checksum="106d12b6d301138343e082962495585f0d89e8c83ec5c390739a8563c57ab7fb"
+checksum="34d411a616ba042069af9e1b61ce9b8f6985b561ed024f2eac6cc0244604db34"
 do_install() {
 	rm -f etc/cron.daily/brave-origin
 	vcopy "*" /

@@ -1,0 +1,40 @@
+# Template file for 'telegram-desktop-bin'
+pkgname=telegram-desktop-bin
+version=7.2.5
+revision=1
+archs="x86_64"
+depends="desktop-file-utils hicolor-icon-theme xdg-utils ca-certificates"
+short_desc="Official desktop client for Telegram (prebuilt static binary)"
+maintainer="solocco"
+license="GPL-3.0-or-later, OpenSSL"
+homepage="https://desktop.telegram.org/"
+changelog="https://github.com/telegramdesktop/tdesktop/releases"
+distfiles="https://github.com/telegramdesktop/tdesktop/releases/download/v${version}/tsetup.${version}.tar.xz"
+checksum=4f44bf31589ebe5c29621f01091367b192661e7933e2c3551b7820e6dfa061c0
+# Binary rilis resmi sudah di-strip; jangan diproses ulang.
+nostrip=yes
+
+do_install() {
+	# Tarball berisi Telegram/{Telegram,Updater}. Biasanya xbps-src meng-strip
+	# satu komponen path saat ekstraksi (biner jadi di top-level wrksrc), tapi
+	# untuk aman kita deteksi kedua kemungkinan layout: file di "." atau di
+	# subdir "Telegram/".
+	local srcdir="."
+	[ -f Telegram/Telegram ] && srcdir="Telegram"
+
+	vmkdir "opt/${pkgname}"
+	vcopy "${srcdir}/Telegram" "opt/${pkgname}"
+	vcopy "${srcdir}/Updater" "opt/${pkgname}"
+
+	# Symlink binary utama ke PATH.
+	vmkdir usr/bin
+	ln -sf "/opt/${pkgname}/Telegram" "${DESTDIR}/usr/bin/telegram-desktop"
+
+	# Desktop entry + ikon (tidak ikut dalam tarball rilis).
+	vinstall "${FILESDIR}/telegram-desktop.desktop" 0644 usr/share/applications
+	vinstall "${FILESDIR}/telegram-desktop.png" 0644 usr/share/pixmaps
+	vinstall "${FILESDIR}/telegram-desktop.png" 0644 \
+		usr/share/icons/hicolor/256x256/apps
+
+	vlicense "${FILESDIR}/LICENSE"
+}

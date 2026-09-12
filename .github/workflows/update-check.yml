@@ -9,28 +9,9 @@ permissions:
   contents: write
 
 jobs:
-  load-matrix:
-    name: Load package list
-    runs-on: ubuntu-latest
-    outputs:
-      packages: ${{ steps.set.outputs.packages }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build matrix from packages.json
-        id: set
-        run: echo "packages=$(jq -c '.packages' packages.json)" >> "$GITHUB_OUTPUT"
-
   update:
-    name: Check ${{ matrix.pkg.package }} updates
-    needs: load-matrix
+    name: Check package updates
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      fail-fast: false
-      matrix:
-        pkg: ${{ fromJson(needs.load-matrix.outputs.packages) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,26 +28,108 @@ jobs:
           git config --global user.name "solocco"
           git config --global user.email "${{ secrets.SIGNING_EMAIL }}"
 
-      - name: Run update script
+      - name: Check & apply all updates (batched)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # FIX: sebelumnya tiap package diproses sebagai job matrix terpisah
+          # yang commit + PUSH sendiri-sendiri. Satu scheduled run bisa
+          # menghasilkan banyak push -> banyak run "Build Packages" yang
+          # semuanya berbagi satu concurrency group (release-publish-refs/heads/main).
+          # GitHub cuma nyimpen 1 run jalan + 1 run antri per group, jadi run
+          # yang lagi antri di tengah bakal DIBATALKAN begitu ada push berikutnya
+          # ("Canceling since a higher priority waiting request ... exists").
+          # Kalau yang kebatalan itu package build:true, binary-nya diam-diam
+          # gak ke-build & gak ke-publish walau template-nya sudah naik di main.
+          #
+          # Sekarang: semua package diperiksa berurutan dalam SATU job, tiap
+          # perubahan di-commit lokal, lalu di-PUSH SEKALI di step berikutnya.
+          # Satu push -> satu run Build Packages -> deteksi before..after di
+          # build.yml nangkep SEMUA package yang berubah dan mem-build semuanya.
           chmod +x scripts/update.sh
-          ./scripts/update.sh '${{ toJson(matrix.pkg) }}'
+          echo '::group::Package list'
+          jq -c '.packages[]' packages.json
+          echo '::endgroup::'
 
-      - name: Pull latest changes
-        if: env.NEW_VERSION != ''
+          jq -c '.packages[]' packages.json | while read -r pkg_json; do
+            pkg=$(echo "$pkg_json" | jq -r '.package')
+            echo "::group::$pkg"
+            # update.sh nulis NEW_VERSION ke $GITHUB_ENV. Karena kita loop banyak
+            # package dalam satu step, arahkan ke file sementara per-iterasi dan
+            # baca dari situ -- ini juga jadi penanda "update sukses & ada versi
+            # baru", persis seperti gate `if: env.NEW_VERSION != ''` yang lama.
+            envfile=$(mktemp)
+            if GITHUB_ENV="$envfile" ./scripts/update.sh "$pkg_json"; then
+              newver=$(sed -n 's/^NEW_VERSION=//p' "$envfile" | tail -n1)
+              tpl="srcpkgs/${pkg}/template"
+              if [ -n "$newver" ] && ! git diff --quiet -- "$tpl"; then
+                git add "$tpl"
+                git commit -m "Update ${pkg} to ${newver}"
+                echo "committed: $pkg -> $newver"
+              fi
+            else
+              # update.sh gagal di tengah jalan (set -e): buang perubahan
+              # parsial (mis. version sudah diganti tapi checksum belum) supaya
+              # gak pernah ter-commit template yang setengah jadi. Lanjut ke
+              # package berikutnya.
+              echo "::warning::update gagal untuk $pkg, buang perubahan parsial"
+              git checkout -- "srcpkgs/${pkg}/template" 2>/dev/null || true
+            fi
+            rm -f "$envfile"
+            echo "::endgroup::"
+          done
+
+          if git diff --quiet HEAD -- && [ -z "$(git log '@{u}..HEAD' --oneline 2>/dev/null)" ]; then
+            echo "Tidak ada update. Selesai."
+          fi
+
+      - name: Push all updates once
         run: |
-          git stash
-          git pull --rebase origin main
-          git stash pop
+          # Tidak ada commit baru? Tidak usah push.
+          if [ -z "$(git log '@{u}..HEAD' --oneline 2>/dev/null)" ]; then
+            echo "Tidak ada commit baru untuk di-push."
+            exit 0
+          fi
+          # Satu push untuk semua commit -> satu run Build Packages.
+          # Retry dengan backoff untuk error jaringan sesaat.
+          n=0
+          until [ "$n" -ge 4 ]; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              echo "Push berhasil."
+              exit 0
+            fi
+            n=$((n + 1))
+            wait=$((2 ** n))
+            echo "Push gagal, retry ke-$n dalam ${wait}s..."
+            sleep "$wait"
+          done
+          # Percobaan terakhir; kalau gagal, biarkan step ini error.
+          git pull --rebase origin main && git push origin HEAD:main
 
-      - name: Commit and push
-        if: env.NEW_VERSION != ''
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: solocco
-          author_email: ${{ secrets.SIGNING_EMAIL }}
-          message: "Update ${{ matrix.pkg.package }} to ${{ env.NEW_VERSION }}"
-          add: "srcpkgs/${{ matrix.pkg.package }}/template"
-          github_token: ${{ secrets.PAT_TOKEN }}
+  notify:
+    name: Notify on failure
+    needs: update
+    # Jalan hanya kalau job update GAGAL (mis. PAT kadaluarsa, push ditolak,
+    # update.sh error) -- supaya auto-update yang mati tidak lolos diam-diam.
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kirim notifikasi Telegram
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -z "$TG_TOKEN" ] || [ -z "$TG_CHAT" ]; then
+            echo "::warning::Secret TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID belum diset, skip notifikasi."
+            exit 0
+          fi
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          text=$(printf '%s\n%s\n%s' \
+            "🔴 <b>Update Check GAGAL</b>" \
+            "Repo: ${GITHUB_REPOSITORY}" \
+            "${run_url}")
+          curl -sS -X POST "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+            -d chat_id="${TG_CHAT}" \
+            -d parse_mode="HTML" \
+            -d disable_web_page_preview="true" \
+            --data-urlencode "text=${text}"

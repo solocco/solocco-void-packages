@@ -1,6 +1,6 @@
 # Template file for 'pcsx2'
 pkgname=pcsx2
-version=2.8.1
+version=2.8.2
 revision=1
 build_style="cmake"
 configure_args="
@@ -46,7 +46,7 @@ maintainer="Wladimir Bec <wladimirbec@gmail.com>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/PCSX2/pcsx2"
 distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
-checksum=57ddcb291785a008351e98e20cb2df9118c9db4f2c4ce03e4b78554fd94bbc83
+checksum=8d1762d568c92198e61a284064d0e5c0d2c6ab1c5bac60ef1330dd0fe44d10a7
 
 post_patch() {
 	export CC=clang

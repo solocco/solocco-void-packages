@@ -1,0 +1,23 @@
+# Template file for 'Tela-circle-icon-theme'
+pkgname=Tela-circle-icon-theme
+version=20260707
+revision=1
+_tag="2026-07-07"
+hostmakedepends="gtk-update-icon-cache"
+depends="hicolor-icon-theme"
+short_desc="Flat, colorful circle icon theme"
+maintainer="solocco <noreply@github.com>"
+license="GPL-3.0-only"
+homepage="https://github.com/vinceliuice/Tela-circle-icon-theme"
+changelog="https://github.com/vinceliuice/Tela-circle-icon-theme/tags"
+distfiles="https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/${_tag}.tar.gz"
+checksum=0a8aee6e95f19ff96cc497d804c75e2af4271a5e6472c55891fb8ac5b099b59b
+
+do_install() {
+	# Pasang varian warna standard saja ke DESTDIR (paket ramping).
+	bash ./install.sh standard -d "${DESTDIR}/usr/share/icons"
+
+	# Jangan ikut-bundle icon-theme.cache: trigger gtk-icon-cache milik xbps
+	# yang meregenerasinya saat paket dipasang di sistem pengguna.
+	find "${DESTDIR}/usr/share/icons" -name 'icon-theme.cache' -delete
+}
