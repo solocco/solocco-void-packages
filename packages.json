@@ -210,6 +210,13 @@
       "build": true,
       "strategy": "source-tarball",
       "repo": "PCSX2/pcsx2"
+    },
+    {
+      "package": "swayfx-bin",
+      "restricted": false,
+      "build": true,
+      "strategy": "source-tarball",
+      "repo": "WillPower3309/swayfx"
     }
   ]
 }

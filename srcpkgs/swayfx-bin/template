@@ -1,0 +1,26 @@
+# Template file for 'swayfx-bin'
+pkgname=swayfx-bin
+version=0.6
+revision=1
+build_style=meson
+configure_args="-Dwerror=false -Db_ndebug=false"
+conf_files="/etc/sway/config"
+hostmakedepends="pkg-config wayland-devel scdoc"
+makedepends="wlroots0.20-devel pcre2-devel json-c-devel pango-devel cairo-devel
+ gdk-pixbuf-devel libevdev-devel scenefx-devel"
+depends="libcap-progs swaybg xorg-server-xwayland libxkbcommon>=1.5.0_1
+ virtual?font:sans-serif"
+short_desc="Sway, but with eye candy! (updated fork of void's swayfx)"
+maintainer="solocco <noreply@solocco.local>"
+license="MIT"
+homepage="https://github.com/WillPower3309/swayfx"
+changelog="https://github.com/WillPower3309/swayfx/releases"
+distfiles="https://github.com/WillPower3309/swayfx/archive/refs/tags/${version}.tar.gz"
+checksum=6ce885a0701c176409d54498a81d91659b0c6cc6bdceff3d7310f6d3d33370e3
+conflicts="sway>=0 swayfx>=0"
+provides="sway-${version}_1"
+replaces="sway>=0 swayfx>=0"
+
+post_install() {
+	vlicense LICENSE
+}
