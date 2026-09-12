@@ -16,7 +16,7 @@ license="MIT"
 homepage="https://github.com/WillPower3309/swayfx"
 changelog="https://github.com/WillPower3309/swayfx/releases"
 distfiles="https://github.com/WillPower3309/swayfx/archive/refs/tags/${version}.tar.gz"
-checksum=6ce885a0701c176409d54498a81d91659b0c6cc6bdceff3d7310f6d3d33370e3
+checksum=854f9d1468b8706718210e026d0bb0ddbc8370f750345fbbdd163f130c1b922d
 conflicts="sway>=0 swayfx>=0"
 provides="sway-${version}_1"
 replaces="sway>=0 swayfx>=0"
