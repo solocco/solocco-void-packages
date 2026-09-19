@@ -252,8 +252,9 @@
       "package": "quickshell-bin",
       "restricted": false,
       "build": true,
-      "strategy": "static",
-      "override_of": "quickshell"
+      "strategy": "gitea",
+      "host": "git.outfoxxed.me",
+      "repo": "quickshell/quickshell"
     },
     {
       "package": "MacTahoe-icon-theme",

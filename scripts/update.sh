@@ -186,6 +186,54 @@ PYEOF
     emit_new_version "$latest_ver"
     ;;
 
+  # ============ GITEA / FORGEJO (host selain GitHub, mis. git.outfoxxed.me) ============
+  gitea)
+    host=$(echo "$PKG_JSON" | jq -r '.host')          # mis. git.outfoxxed.me
+    reset_rev=$(echo "$PKG_JSON" | jq -r '.reset_revision // true')
+    fallback_tags=$(echo "$PKG_JSON" | jq -r '.fallback_tags // true')
+
+    if [ -z "$host" ] || [ "$host" = "null" ] || [ -z "$repo" ]; then
+      echo "Error: strategy gitea butuh 'host' dan 'repo'."
+      exit 1
+    fi
+
+    # Gitea/Forgejo API mirip GitHub: /api/v1/repos/<repo>/releases/latest &
+    # /tags. Soft (tanpa -f) supaya 404 di releases/latest gak matiin script
+    # sebelum fallback ke tags.
+    gitea_soft() { curl -sSL "https://${host}/api/v1/$1"; }
+
+    latest_tag=$(gitea_soft "repos/${repo}/releases/latest" | jq -r '.tag_name // empty' 2>/dev/null)
+    if [ -z "$latest_tag" ] && [ "$fallback_tags" = "true" ]; then
+      latest_tag=$(gitea_soft "repos/${repo}/tags" | jq -r 'if type=="array" then (.[0].name // empty) else empty end' 2>/dev/null)
+    fi
+    if [ -z "$latest_tag" ]; then
+      echo "Gagal ambil tag terbaru dari $host, skip"
+      exit 0
+    fi
+
+    latest_ver="${latest_tag#v}"
+    cur_ver=$(current_version)
+    echo "Current: $cur_ver | Latest: $latest_ver (tag $latest_tag)"
+
+    if [ "$latest_ver" = "$cur_ver" ]; then
+      echo "Sudah up to date"
+      exit 0
+    fi
+
+    tarball_url="https://${host}/${repo}/archive/${latest_tag}.tar.gz"
+    if ! new_checksum=$(download_and_checksum "$tarball_url"); then
+      echo "Error: gagal download/hash tarball dari $host."
+      exit 1
+    fi
+
+    set_version "$latest_ver"
+    [ "$reset_rev" = "true" ] && set_revision_1
+    sed -i "s/^checksum=.*/checksum=${new_checksum}/" "$template"
+
+    echo "Template updated ke $latest_ver"
+    emit_new_version "$latest_ver"
+    ;;
+
   # ============ BINARY ASSET (1 asset prebuilt, download + hash) ============
   binary-asset)
     asset_template=$(echo "$PKG_JSON" | jq -r '.asset')

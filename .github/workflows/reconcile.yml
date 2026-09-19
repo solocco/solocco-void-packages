@@ -333,15 +333,28 @@ jobs:
           fi
           body="${body}${nl}${nl}<a href=\"${run_url}\">View workflow run</a>"
 
+          # Fingerprint temuan -> buat dedup notif (lihat step cache di bawah).
+          # Temuan yang sama gak bakal dinotif ulang tiap hari; cuma pas berubah.
+          fp=$(printf '%s\n%s\n' "$orphans" "$redundant" | sha256sum | cut -d' ' -f1)
           {
             echo "has_findings=true"
+            echo "fp=$fp"
             echo "body<<__TG_EOF__"
             echo "$body"
             echo "__TG_EOF__"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Notify hygiene findings to Telegram
+      - name: Check if these findings were already notified
+        id: seen
         if: steps.scan.outputs.has_findings == 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/hygiene-fp
+          key: hygiene-notified-${{ steps.scan.outputs.fp }}
+          lookup-only: true
+
+      - name: Notify hygiene findings to Telegram
+        if: steps.scan.outputs.has_findings == 'true' && steps.seen.outputs.cache-hit != 'true'
         env:
           TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -356,6 +369,19 @@ jobs:
             -d parse_mode="HTML" \
             -d disable_web_page_preview="true" \
             --data-urlencode "text=${BODY}"
+
+      - name: Remember these findings (dedup marker)
+        if: steps.scan.outputs.has_findings == 'true' && steps.seen.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p /tmp
+          printf '%s\n' "${{ steps.scan.outputs.fp }}" > /tmp/hygiene-fp
+
+      - name: Save dedup marker
+        if: steps.scan.outputs.has_findings == 'true' && steps.seen.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: /tmp/hygiene-fp
+          key: hygiene-notified-${{ steps.scan.outputs.fp }}
 
   notify:
     name: Notify on failure
