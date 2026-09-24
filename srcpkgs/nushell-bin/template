@@ -1,5 +1,5 @@
 # Template file for 'nushell'
-pkgname=nushell
+pkgname=nushell-bin
 version=0.115.1
 revision=1
 build_style=cargo

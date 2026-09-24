@@ -48,9 +48,9 @@
       "repo": "yorukot/superfile"
     },
     {
-      "package": "nushell",
+      "package": "nushell-bin",
       "restricted": false,
-      "build": false,
+      "build": true,
       "strategy": "source-tarball",
       "repo": "nushell/nushell"
     },
@@ -169,14 +169,14 @@
     {
       "package": "jetsevka-bin",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "font",
       "font": "Jetsevka"
     },
     {
       "package": "scroll",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "source-tarball",
       "repo": "dawsers/scroll",
       "fallback_tags": true
@@ -213,7 +213,7 @@
     {
       "package": "telegram-desktop-bin",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "binary-asset",
       "repo": "telegramdesktop/tdesktop",
       "asset": "tsetup.{version}.tar.xz",
@@ -259,7 +259,7 @@
     {
       "package": "MacTahoe-icon-theme",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "source-tarball",
       "repo": "vinceliuice/MacTahoe-icon-theme",
       "fallback_tags": true,
@@ -269,7 +269,7 @@
     {
       "package": "WhiteSur-icon-theme",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "source-tarball",
       "repo": "vinceliuice/WhiteSur-icon-theme",
       "fallback_tags": true,
@@ -279,7 +279,7 @@
     {
       "package": "Colloid-icon-theme",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "source-tarball",
       "repo": "vinceliuice/Colloid-icon-theme",
       "fallback_tags": true,
@@ -289,7 +289,7 @@
     {
       "package": "firax-font",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "font",
       "font": "Firax"
     }
