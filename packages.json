@@ -292,6 +292,16 @@
       "build": false,
       "strategy": "font",
       "font": "Firax"
+    },
+    {
+      "package": "wordcraft-bin",
+      "restricted": false,
+      "build": false,
+      "strategy": "binary-asset",
+      "repo": "storytold/wordcraft",
+      "asset": "wordcraft-{version}-linux-x86_64.tar.gz",
+      "quoted_checksum": false,
+      "url_v_prefix": true
     }
   ]
 }

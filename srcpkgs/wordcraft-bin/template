@@ -1,0 +1,31 @@
+# Template file for 'wordcraft-bin'
+pkgname=wordcraft-bin
+version=0.6.1
+revision=1
+archs="x86_64"
+_name=wordcraft-${version}-linux-x86_64
+wrksrc="${_name}"
+build_style=fetch
+# windowing (X11/Wayland, xkbcommon) and GPU (Vulkan/EGL) are dlopen'd at runtime
+depends="libxkbcommon vulkan-loader libglvnd libX11 libXcursor libXi libXrandr
+ wayland xdg-desktop-portal"
+short_desc="Open-source native word processor, clean-room Word reimplementation (binary)"
+maintainer="pharacox <solocco@users.noreply.github.com>"
+license="MIT OR Apache-2.0"
+homepage="https://github.com/storytold/wordcraft"
+distfiles="${homepage}/releases/download/v${version}/${_name}.tar.gz"
+checksum=79bd54c81276f6ea551222432adec15e0eaab4cb5881decee38eafd7a5ca38f9
+conflicts="wordcraft"
+nostrip=yes # prebuilt, already stripped upstream
+
+case "$XBPS_TARGET_MACHINE" in
+	*-musl) broken="upstream binaries are built against glibc >= 2.35" ;;
+esac
+
+do_install() {
+	vbin bin/wordcraft
+	vbin bin/wordcraft-cli
+	cp -a share ${DESTDIR}/usr/
+	vlicense share/doc/wordcraft/LICENSE-MIT
+	vlicense share/doc/wordcraft/LICENSE-APACHE
+}
