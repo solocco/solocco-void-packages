@@ -5,7 +5,6 @@ revision=1
 archs="x86_64"
 _name=wordcraft-${version}-linux-x86_64
 wrksrc="${_name}"
-build_style=fetch
 # windowing (X11/Wayland, xkbcommon) and GPU (Vulkan/EGL) are dlopen'd at runtime
 depends="libxkbcommon vulkan-loader libglvnd libX11 libXcursor libXi libXrandr
  wayland xdg-desktop-portal"
