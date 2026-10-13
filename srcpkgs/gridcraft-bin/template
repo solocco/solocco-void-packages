@@ -1,0 +1,30 @@
+# Template file for 'gridcraft-bin'
+pkgname=gridcraft-bin
+version=0.6.1
+revision=1
+archs="x86_64"
+_name=gridcraft-${version}-linux-x86_64
+wrksrc="${_name}"
+# windowing (X11/Wayland, xkbcommon) and GPU (Vulkan/EGL) are dlopen'd at runtime
+depends="libxkbcommon vulkan-loader libglvnd libX11 libXcursor libXi libXrandr
+ wayland xdg-desktop-portal"
+short_desc="Open-source native spreadsheet, clean-room Excel reimplementation (binary)"
+maintainer="pharacox <solocco@users.noreply.github.com>"
+license="MIT OR Apache-2.0"
+homepage="https://github.com/storytold/gridcraft"
+distfiles="${homepage}/releases/download/v${version}/${_name}.tar.gz"
+checksum=61163b62d9faf814b864e1b255d15dc310a71a72ca03d8791fa8024420162745
+conflicts="gridcraft"
+nostrip=yes # prebuilt, already stripped upstream
+
+case "$XBPS_TARGET_MACHINE" in
+	*-musl) broken="upstream binaries are built against glibc >= 2.35" ;;
+esac
+
+do_install() {
+	vbin bin/gridcraft
+	vbin bin/gridcraft-cli
+	cp -a share ${DESTDIR}/usr/
+	vlicense share/doc/gridcraft/LICENSE-MIT
+	vlicense share/doc/gridcraft/LICENSE-APACHE
+}

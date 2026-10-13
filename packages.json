@@ -302,6 +302,16 @@
       "asset": "wordcraft-{version}-linux-x86_64.tar.gz",
       "quoted_checksum": false,
       "url_v_prefix": true
+    },
+    {
+      "package": "gridcraft-bin",
+      "restricted": false,
+      "build": true,
+      "strategy": "binary-asset",
+      "repo": "storytold/gridcraft",
+      "asset": "gridcraft-{version}-linux-x86_64.tar.gz",
+      "quoted_checksum": false,
+      "url_v_prefix": true
     }
   ]
 }
