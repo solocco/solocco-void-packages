@@ -1,6 +1,6 @@
 # Template file for 'gridcraft-bin'
 pkgname=gridcraft-bin
-version=0.7.0
+version=0.8.0
 revision=1
 archs="x86_64"
 _name=gridcraft-${version}-linux-x86_64
@@ -13,7 +13,7 @@ maintainer="pharacox <solocco@users.noreply.github.com>"
 license="MIT OR Apache-2.0"
 homepage="https://github.com/storytold/gridcraft"
 distfiles="${homepage}/releases/download/v${version}/${_name}.tar.gz"
-checksum="c01bc2dc4295556f53810dfed4a85a3f58388552c157a103e10626c069b39e1c"
+checksum="4a029e20da86bad46706339ce4516a20445c131c0d82f6a114772208c5d831b3"
 conflicts="gridcraft"
 nostrip=yes # prebuilt, already stripped upstream
 
