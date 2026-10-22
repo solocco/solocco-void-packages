@@ -1,6 +1,6 @@
 # Template file for 'deckcraft-bin'
 pkgname=deckcraft-bin
-version=0.8.0
+version=0.9.0
 revision=1
 archs="x86_64"
 _name=deckcraft-${version}-linux-x86_64
@@ -13,7 +13,7 @@ maintainer="pharacox <solocco@users.noreply.github.com>"
 license="MIT OR Apache-2.0"
 homepage="https://github.com/storytold/deckcraft"
 distfiles="${homepage}/releases/download/v${version}/${_name}.tar.gz"
-checksum="227b8c9cdd2c06b7866807f995fe5d2d0675523a61208f9bc26cf2760fddcb8f"
+checksum="531b4c8cd434ca767ef21da0d44e099664af5d5d968b038bc8f927717f8fa8f1"
 conflicts="deckcraft"
 nostrip=yes # prebuilt, already stripped upstream
 
