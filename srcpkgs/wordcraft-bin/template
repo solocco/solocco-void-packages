@@ -1,6 +1,6 @@
 # Template file for 'wordcraft-bin'
 pkgname=wordcraft-bin
-version=0.16.0
+version=0.17.0
 revision=1
 archs="x86_64"
 _name=wordcraft-${version}-linux-x86_64
@@ -13,7 +13,7 @@ maintainer="pharacox <solocco@users.noreply.github.com>"
 license="MIT OR Apache-2.0"
 homepage="https://github.com/storytold/wordcraft"
 distfiles="${homepage}/releases/download/v${version}/${_name}.tar.gz"
-checksum="325b97f15bbf532628a3176a9c17148a7175f3e4f19b9313de323ab513609752"
+checksum="9c744c0c31a3ce25df82680fc75e645d682846faccbe103f4f91a758b19f3687"
 conflicts="wordcraft"
 nostrip=yes # prebuilt, already stripped upstream
 
