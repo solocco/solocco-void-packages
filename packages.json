@@ -132,7 +132,7 @@
     {
       "package": "mangowm",
       "restricted": false,
-      "build": false,
+      "build": true,
       "strategy": "source-tarball",
       "repo": "mangowm/mango"
     },
