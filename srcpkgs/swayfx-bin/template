@@ -1,6 +1,6 @@
 # Template file for 'swayfx-bin'
 pkgname=swayfx-bin
-version=0.6
+version=0.6.1
 revision=1
 build_style=meson
 configure_args="-Dwerror=false -Db_ndebug=false"
@@ -16,7 +16,7 @@ license="MIT"
 homepage="https://github.com/WillPower3309/swayfx"
 changelog="https://github.com/WillPower3309/swayfx/releases"
 distfiles="https://github.com/WillPower3309/swayfx/archive/refs/tags/${version}.tar.gz"
-checksum=854f9d1468b8706718210e026d0bb0ddbc8370f750345fbbdd163f130c1b922d
+checksum=7afe1e29a3508d3ab724d5ef029df48fcbf770c4af48c294e3051571aa835dcb
 conflicts="sway>=0 swayfx>=0"
 provides="sway-${version}_1"
 replaces="sway>=0 swayfx>=0"
