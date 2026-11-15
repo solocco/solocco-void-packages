@@ -1,0 +1,32 @@
+# Template file for 'pdfcraft-bin'
+pkgname=pdfcraft-bin
+version=0.21.1
+revision=1
+archs="x86_64"
+_name=pdfcraft-${version}-linux-x86_64
+wrksrc="${_name}"
+# windowing (X11/Wayland, xkbcommon) and GPU (Vulkan/EGL) are dlopen'd at runtime
+depends="libxkbcommon vulkan-loader libglvnd libX11 libXcursor libXi libXrandr
+ wayland xdg-desktop-portal"
+short_desc="Open-source native PDF reader and editor, clean-room Acrobat reimplementation (binary)"
+maintainer="pharacox <solocco@users.noreply.github.com>"
+# bundled OCR models (share/pdfcraft/models) are CC-BY-SA-4.0
+license="MIT OR Apache-2.0, CC-BY-SA-4.0"
+homepage="https://github.com/storytold/pdfcraft"
+distfiles="${homepage}/releases/download/v${version}/${_name}.tar.gz"
+checksum=c2919e9044effde318e66807ad2a21bbb74a9555b3c0b99f9ad0c40cf61ce25e
+conflicts="pdfcraft"
+nostrip=yes # prebuilt, already stripped upstream
+
+case "$XBPS_TARGET_MACHINE" in
+	*-musl) broken="upstream binaries are built against glibc >= 2.35" ;;
+esac
+
+do_install() {
+	vbin bin/pdfcraft
+	vbin bin/pdfcraft-cli
+	cp -a share ${DESTDIR}/usr/
+	vlicense share/doc/pdfcraft/LICENSE-MIT
+	vlicense share/doc/pdfcraft/LICENSE-APACHE
+	vlicense share/pdfcraft/models/text-detection.onnx.LICENCE.txt CC-BY-SA-4.0-models
+}

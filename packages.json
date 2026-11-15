@@ -111,7 +111,7 @@
     {
       "package": "mayulite-bin",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "font",
       "font": "Mayulite"
     },
@@ -223,7 +223,7 @@
     {
       "package": "Tela-circle-icon-theme",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "source-tarball",
       "repo": "vinceliuice/Tela-circle-icon-theme",
       "fallback_tags": true,
@@ -233,7 +233,7 @@
     {
       "package": "bibata-cursor-theme",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "binary-asset",
       "repo": "ful1e5/Bibata_Cursor",
       "asset": "Bibata-Modern-Ice.tar.xz",
@@ -251,7 +251,7 @@
     {
       "package": "quickshell-bin",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "gitea",
       "host": "git.outfoxxed.me",
       "repo": "quickshell/quickshell"
@@ -320,6 +320,16 @@
       "strategy": "binary-asset",
       "repo": "storytold/deckcraft",
       "asset": "deckcraft-{version}-linux-x86_64.tar.gz",
+      "quoted_checksum": false,
+      "url_v_prefix": true
+    },
+    {
+      "package": "pdfcraft-bin",
+      "restricted": false,
+      "build": true,
+      "strategy": "binary-asset",
+      "repo": "storytold/pdfcraft",
+      "asset": "pdfcraft-{version}-linux-x86_64.tar.gz",
       "quoted_checksum": false,
       "url_v_prefix": true
     }
