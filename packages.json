@@ -55,7 +55,7 @@
       "repo": "nushell/nushell"
     },
     {
-      "package": "noctalia",
+      "package": "noctalia-bin",
       "restricted": false,
       "build": false,
       "strategy": "source-tarball",
