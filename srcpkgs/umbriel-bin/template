@@ -1,0 +1,24 @@
+# Template file for 'umbriel-bin'
+pkgname=umbriel-bin
+version=0.1.0.git20261115
+revision=1
+_commit=1bbbf155d25b2a338c7b6d52863d9f6efaf346ac
+build_style=meson
+hostmakedepends="pkg-config wayland-scanner++"
+makedepends="wlroots0.20-devel wayland-devel libwaylandpp-devel wayland-protocols libxkbcommon-devel
+	libinput-devel eudev-libudev-devel pixman-devel libdrm-devel cairo-devel pango-devel
+	tomlplusplus-devel json-c++ libgbm-devel lcms2-devel jemalloc-devel libdisplay-info-devel libei-devel
+	libxcb-devel xcb-util-wm-devel"
+short_desc="Independent compositor with scrolling/dwindle/master/floating layouts"
+maintainer="Yoshi <yoshi@yoshiwalsh.me>"
+license="MIT"
+# bentrok kalau suatu saat "umbriel" masuk repo utama Void
+conflicts="umbriel>=0"
+provides="umbriel-${version}_${revision}"
+homepage="https://docs.noctalia.dev/umbriel/"
+distfiles="https://github.com/noctalia-dev/umbriel/archive/${_commit}.tar.gz"
+checksum="22e167ca7919fa6d6f9ec1afc1738860c4c370465f623853e90d7d7b59f9c866"
+
+post_install() {
+	vlicense LICENSE
+}

@@ -64,6 +64,13 @@
       "set_tag_var": true
     },
     {
+      "package": "umbriel-bin",
+      "restricted": false,
+      "build": true,
+      "strategy": "git-commit",
+      "repo": "noctalia-dev/umbriel"
+    },
+    {
       "package": "yazi-bin",
       "restricted": false,
       "build": true,
