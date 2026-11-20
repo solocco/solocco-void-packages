@@ -57,7 +57,7 @@
     {
       "package": "noctalia-bin",
       "restricted": false,
-      "build": false,
+      "build": true,
       "strategy": "source-tarball",
       "repo": "noctalia-dev/noctalia",
       "dash_strip": true,
