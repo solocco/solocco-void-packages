@@ -1,6 +1,6 @@
 # Template file for 'superfile'
 pkgname=superfile
-version=1.6.0
+version=1.6.1
 revision=1
 build_style=go
 go_import_path="github.com/yorukot/superfile"
@@ -12,7 +12,7 @@ license="MIT"
 homepage="https://superfile.dev"
 changelog="https://raw.githubusercontent.com/yorukot/superfile/main/website/src/content/docs/changelog.mdx"
 distfiles="https://github.com/yorukot/superfile/archive/refs/tags/v${version}.tar.gz"
-checksum=7340ce9e3e7db401164310dd5d2d1dfa3ccf76118ac49d192b0fac2a292c5b0d
+checksum=cdca43cebee4b302104274084d67de31e244b4add39a247a76ab2ae3b255e7d6
 
 post_install() {
 	mv "${DESTDIR}/usr/bin/superfile" "${DESTDIR}/usr/bin/spf"
