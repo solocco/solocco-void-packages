@@ -71,6 +71,13 @@
       "repo": "noctalia-dev/umbriel"
     },
     {
+      "package": "xdg-desktop-portal-umbriel-bin",
+      "restricted": false,
+      "build": true,
+      "strategy": "git-commit",
+      "repo": "noctalia-dev/xdg-desktop-portal-umbriel"
+    },
+    {
       "package": "yazi-bin",
       "restricted": false,
       "build": true,
