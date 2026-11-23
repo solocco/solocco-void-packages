@@ -1,6 +1,6 @@
 # Template file for 'pdfcraft-bin'
 pkgname=pdfcraft-bin
-version=0.21.1
+version=0.22.0
 revision=1
 archs="x86_64"
 _name=pdfcraft-${version}-linux-x86_64
@@ -14,7 +14,7 @@ maintainer="pharacox <solocco@users.noreply.github.com>"
 license="MIT OR Apache-2.0, CC-BY-SA-4.0"
 homepage="https://github.com/storytold/pdfcraft"
 distfiles="${homepage}/releases/download/v${version}/${_name}.tar.gz"
-checksum=c2919e9044effde318e66807ad2a21bbb74a9555b3c0b99f9ad0c40cf61ce25e
+checksum="a8993f9ee96e87accecf90af4226ff60a84b9e1787ae9fd8fa48ffe1396bc35e"
 conflicts="pdfcraft"
 nostrip=yes # prebuilt, already stripped upstream
 
