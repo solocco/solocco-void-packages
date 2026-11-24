@@ -1,0 +1,43 @@
+# Template file for 'luciole-bin'
+pkgname=luciole-bin
+version=0.1.0.git20261118
+revision=2
+_commit=90689cc89d05853871036b1772b71e441bd72f69
+build_style=meson
+hostmakedepends="pkg-config"
+makedepends="wayland-devel wayland-protocols MesaLib-devel libglvnd-devel
+	glib-devel freetype-devel fontconfig-devel cairo-devel
+	pango-devel harfbuzz-devel libxkbcommon-devel gdk-pixbuf-devel
+	librsvg-devel libpng-devel libarchive-devel
+	liblzma-devel acl-devel tomlplusplus-devel json-c++ stb
+	libxml2-devel libcurl-devel"
+CXXFLAGS+=" -isystem /usr/include/librsvg-2.0"
+short_desc="Native Wayland file manager using Noctalia rendering and controls"
+maintainer="Rain Xelelo <rxelelo@outlook.com>"
+license="MIT"
+# bentrok kalau suatu saat "luciole" masuk repo utama Void
+conflicts="luciole>=0"
+provides="luciole-${version}_${revision}"
+homepage="https://github.com/noctalia-dev/luciole"
+distfiles="${homepage}/archive/${_commit}.tar.gz"
+checksum="c41b3980c5d2a3f34c57c0a8464a7ac9575f8467d75e9ffa4cc9d891fbb65532"
+
+# Patch ini cuma dibutuhin commit lama (lambda `this auto&&` gak punya `this`
+# implisit). Upstream sudah memperbaikinya di commit baru, jadi patch di
+# files/ dipasang HANYA kalau masih bisa dipasang bersih -- kalau enggak,
+# dilewati. (Kalau ditaruh di patches/, build mati begitu auto-update naik
+# ke commit yang sudah diperbaiki upstream.)
+post_patch() {
+	local p
+	for p in ${FILESDIR}/*.patch; do
+		if patch -Np1 --dry-run -s <"$p" >/dev/null 2>&1; then
+			patch -Np1 -s <"$p"
+		else
+			msg_warn "${p##*/} tidak bisa dipasang, dilewati (sudah diperbaiki upstream?)\n"
+		fi
+	done
+}
+
+post_install() {
+	vlicense LICENSE
+}

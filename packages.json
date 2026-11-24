@@ -78,6 +78,13 @@
       "repo": "noctalia-dev/xdg-desktop-portal-umbriel"
     },
     {
+      "package": "luciole-bin",
+      "restricted": false,
+      "build": true,
+      "strategy": "git-commit",
+      "repo": "noctalia-dev/luciole"
+    },
+    {
       "package": "yazi-bin",
       "restricted": false,
       "build": true,
