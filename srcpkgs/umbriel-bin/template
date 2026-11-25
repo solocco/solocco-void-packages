@@ -1,8 +1,8 @@
 # Template file for 'umbriel-bin'
 pkgname=umbriel-bin
-version=0.1.0.git20261123
+version=0.1.0.git20261124
 revision=1
-_commit=a909081a934a80bb7685080884ffaaa30c857e4c
+_commit=b56b66ce66b4cf84d34e522d3ad63a82b215ccd9
 build_style=meson
 hostmakedepends="pkg-config wayland-scanner++"
 makedepends="wlroots0.20-devel wayland-devel libwaylandpp-devel wayland-protocols libxkbcommon-devel
@@ -17,7 +17,7 @@ conflicts="umbriel>=0"
 provides="umbriel-${version}_${revision}"
 homepage="https://docs.noctalia.dev/umbriel/"
 distfiles="https://github.com/noctalia-dev/umbriel/archive/${_commit}.tar.gz"
-checksum="d5624a8371cfbbc64b367a14b399ce0d75f924e32fcc69e3eb957b7f5774f795"
+checksum="d434277960ffdfce32ff76fb20ba8f249b96f15218eac72e86570469d6e82848"
 
 post_install() {
 	vlicense LICENSE
