@@ -57,7 +57,7 @@
     {
       "package": "noctalia-bin",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "source-tarball",
       "repo": "noctalia-dev/noctalia",
       "dash_strip": true,
@@ -66,21 +66,21 @@
     {
       "package": "umbriel-bin",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "git-commit",
       "repo": "noctalia-dev/umbriel"
     },
     {
       "package": "xdg-desktop-portal-umbriel-bin",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "git-commit",
       "repo": "noctalia-dev/xdg-desktop-portal-umbriel"
     },
     {
       "package": "luciole-bin",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "git-commit",
       "repo": "noctalia-dev/luciole"
     },
