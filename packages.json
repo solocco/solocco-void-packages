@@ -80,7 +80,7 @@
     {
       "package": "luciole-bin",
       "restricted": false,
-      "build": true,
+      "build": false,
       "strategy": "git-commit",
       "repo": "noctalia-dev/luciole"
     },
