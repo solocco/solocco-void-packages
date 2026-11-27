@@ -1,8 +1,8 @@
 # Template file for 'luciole-bin'
 pkgname=luciole-bin
-version=0.1.0.git20261126
-revision=2
-_commit=cb6375a5e046ae9ce3eaba7d12ba53a85e2c769a
+version=0.1.0.git20261127
+revision=1
+_commit=179bc55ced1cf69acfcb58e0dd287c3e2c4e4ffe
 build_style=meson
 hostmakedepends="pkg-config"
 makedepends="wayland-devel wayland-protocols MesaLib-devel libglvnd-devel
@@ -20,7 +20,7 @@ conflicts="luciole>=0"
 provides="luciole-${version}_${revision}"
 homepage="https://github.com/noctalia-dev/luciole"
 distfiles="${homepage}/archive/${_commit}.tar.gz"
-checksum="0798f19fa44079f6cefcab5bb08b419308d3b1fdd5ff3cc29ff1743cae5b90ee"
+checksum="d61fe586ea71c4d51603deee036514338cb2cf3d0618b583881bddf4a3b1fbf0"
 
 # Patch ini cuma dibutuhin commit lama (lambda `this auto&&` gak punya `this`
 # implisit). Upstream sudah memperbaikinya di commit baru, jadi patch di
